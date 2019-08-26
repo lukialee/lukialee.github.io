@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-08-25T13:55:25.872Z</updated>
+  <updated>2019-08-26T15:58:30.949Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -17,45 +17,26 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>test1</title>
-    <link href="http://yoursite.com/2019/08/25/My-New-Post/"/>
-    <id>http://yoursite.com/2019/08/25/My-New-Post/</id>
-    <published>2019-08-25T13:52:04.000Z</published>
-    <updated>2019-08-25T13:55:25.872Z</updated>
+    <title>npm依赖包版本号固定方法</title>
+    <link href="http://yoursite.com/2019/08/26/npm%E4%BE%9D%E8%B5%96%E5%8C%85%E7%89%88%E6%9C%AC%E5%8F%B7%E5%9B%BA%E5%AE%9A%E6%96%B9%E6%B3%95/"/>
+    <id>http://yoursite.com/2019/08/26/npm依赖包版本号固定方法/</id>
+    <published>2019-08-26T15:45:00.000Z</published>
+    <updated>2019-08-26T15:58:30.949Z</updated>
     
-    <content type="html"><![CDATA[<p>who are you?</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;who are you?&lt;/p&gt;
-
-      
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Hello World</title>
-    <link href="http://yoursite.com/2019/08/25/hello-world/"/>
-    <id>http://yoursite.com/2019/08/25/hello-world/</id>
-    <published>2019-08-25T13:34:53.907Z</published>
-    <updated>2019-08-25T13:34:53.907Z</updated>
-    
-    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>]]></content>
+    <content type="html"><![CDATA[<h2 id="为什么固定版本号？"><a href="#为什么固定版本号？" class="headerlink" title="为什么固定版本号？"></a>为什么固定版本号？</h2><ul><li><p>为了安全。新版本有可能被黑客植入病毒。<br>如何看待 NPM 包 event-stream 被黑客篡改，发现包含恶意代码？</p></li><li><p>保证功能一致性。<br>一般情况下，限定了major和minor版本，Library对外暴露的API是向下兼容的，但有时候作者会修复Bug或者添加新功能，很可能影响原有功能的一致性，甚至产生新的Bug。</p></li><li><p>降低维护成本。<br>虽然有package-lock.json这个文件，可以显式地锁定依赖包的版本，但它本身是不可靠的，且易变。<br>一旦Library的作者发布了新版本，或者项目开发者自己使用了npm update命令，package-lock.json又会发生变化。<br>如果我们依赖这种包管理的方式，在看代码PR时，还要观察这个文件的变更，成本太高。</p></li></ul><h2 id="有风险的做法"><a href="#有风险的做法" class="headerlink" title="有风险的做法"></a>有风险的做法</h2><p>有几种写法？分别代表什么意思？看一下官方的介绍 <a href="https://docs.npmjs.com/files/package.json#dependencies" target="_blank" rel="noopener">https://docs.npmjs.com/files/package.json#dependencies</a></p><p>以下版本号写法，都是有风险的：</p><ul><li><p>插入符号（^），限定major版本：<br>功能兼容，旧的API不会消失，但可能会有新的API。<br>如”@koa/cors”: “^2.2.3”,<br>实际安装的版本会是 version &gt;=2.2.3 &amp;&amp; version &lt; 3.0.0</p></li><li><p>波浪符号（~），限定minor版本：<br>功能几乎一样，API不变，可能会有小问题修复和改进。<br>如”@koa/cors”: “~2.2.3”,<br>实际安装的版本会是 version &gt;=2.2.3 &amp;&amp; version &lt; 2.3.0</p></li></ul><h2 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h2><p>可以用以下命令查看安装的依赖：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm list --depth=0</span><br></pre></td></tr></table></figure><p>以下代码可以检查当前安装的包的版本，并固化版本号。如果对脚本不放心，那就用npm list 命令吧。</p><p>自动修改package.json，会通过npm list –depth=0，找到本地实际安装的依赖包版本号，替换掉package.json中的范围版本号。</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> process = <span class="built_in">require</span>(<span class="string">'child_process'</span>);</span><br><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</span><br><span class="line"><span class="keyword">const</span> packageFilePath = path.resolve(<span class="string">'package.json'</span>);</span><br><span class="line"><span class="keyword">let</span> packageContentStr = fs.readFileSync(packageFilePath, <span class="string">'utf-8'</span>);</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fixPackagesVersion</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> packageContent = <span class="built_in">JSON</span>.parse(packageContentStr);</span><br><span class="line">  replaceDepsVersion(packageContent.dependencies);</span><br><span class="line">  replaceDepsVersion(packageContent.devDependencies);</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">replaceDepsVersion</span>(<span class="params">dependencies</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">Object</span>.keys(dependencies).forEach(<span class="function"><span class="keyword">function</span> (<span class="params">packageName</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> originalVerStr = <span class="string">`"<span class="subst">$&#123;packageName&#125;</span>"\\s*:\\s*".*"`</span>;</span><br><span class="line">    <span class="keyword">const</span> packageStartReg = <span class="keyword">new</span> <span class="built_in">RegExp</span>(originalVerStr);</span><br><span class="line">    <span class="keyword">const</span> finalVer = getFinalVersion(packageName);</span><br><span class="line">    <span class="keyword">if</span> (finalVer) &#123;</span><br><span class="line">      <span class="keyword">const</span> stableVersionStr = <span class="string">`"<span class="subst">$&#123;packageName&#125;</span>": "<span class="subst">$&#123;finalVer&#125;</span>"`</span>;</span><br><span class="line">      packageContentStr = packageContentStr.replace(packageStartReg, stableVersionStr);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getFinalVersion</span>(<span class="params">packageName</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> str = actualInstalledPackages;</span><br><span class="line">  <span class="keyword">const</span> regStr = <span class="string">`──\\s<span class="subst">$&#123;packageName&#125;</span>@.*`</span>;</span><br><span class="line">  <span class="keyword">const</span> reg = <span class="keyword">new</span> <span class="built_in">RegExp</span>(regStr);</span><br><span class="line">  <span class="keyword">const</span> packageAndVerResult = str.match(reg);</span><br><span class="line">  <span class="keyword">if</span> (packageAndVerResult &amp;&amp; packageAndVerResult.length) &#123;</span><br><span class="line">    <span class="keyword">const</span> value = packageAndVerResult[<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">return</span> value.substring(value.lastIndexOf(<span class="string">'@'</span>)+<span class="number">1</span>);</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">''</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="keyword">const</span> command = <span class="string">'npm list --depth=0'</span>;</span><br><span class="line"><span class="keyword">let</span> actualInstalledPackages;</span><br><span class="line">process.exec(command, (err, stdout, stderr) =&gt; &#123;</span><br><span class="line">  actualInstalledPackages = stdout;</span><br><span class="line">  fixPackagesVersion();</span><br><span class="line">  fs.writeFileSync(packageFilePath, packageContentStr, <span class="string">'utf-8'</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>]]></content>
     
     <summary type="html">
     
       
       
-        &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.
+        &lt;h2 id=&quot;为什么固定版本号？&quot;&gt;&lt;a href=&quot;#为什么固定版本号？&quot; class=&quot;headerlink&quot; title=&quot;为什么固定版本号？&quot;&gt;&lt;/a&gt;为什么固定版本号？&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;为了安全。新版本有可能被黑客植入病毒。&lt;br&gt;如何看待 NPM 包
       
     
     </summary>
     
+    
+      <category term="npm" scheme="http://yoursite.com/tags/npm/"/>
     
   </entry>
   
